@@ -5,7 +5,12 @@ export default async function ImagePage({
 }) {
   const { imageid } = params;
 
-  const res = await fetch(`https://api.thecatapi.com/v1/images/${imageid}`);
+  function getImage(imageid: string) {
+    return fetch(`https://api.thecatapi.com/v1/images/${imageid}`);
+  }
+  const res = await fetch(`https://api.thecatapi.com/v1/images/${1}`);
+
+
   if (!res.ok) {
     return (
       <div>
@@ -17,6 +22,7 @@ export default async function ImagePage({
 
   const image: { id: string; url?: string; width?: number; height?: number } =
     await res.json();
+    console.log(image);
 
   return (
     <div>
