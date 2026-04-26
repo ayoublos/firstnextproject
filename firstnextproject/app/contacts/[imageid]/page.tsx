@@ -1,3 +1,13 @@
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
+type CatImage = {
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+};
+
 export default async function ImagePage({
   params,
 }: {
@@ -5,38 +15,24 @@ export default async function ImagePage({
 }) {
   const { imageid } = params;
 
-  function getImage(imageid: string) {
-    return fetch(`https://api.thecatapi.com/v1/images/${imageid}`);
-  }
-  const res = await fetch(`https://api.thecatapi.com/v1/images/${1}`);
+  const res = await fetch(`https://api.thecatapi.com/v1/images/${imageid}`, {
+    // avoid caching random ids forever in production
+    cache: "no-store",
+  });
 
+  if (!res.ok) notFound();
 
-  if (!res.ok) {
-    return (
-      <div>
-        <h1>Image {imageid}</h1>
-        <p>Not found.</p>
-      </div>
-    );
-  }
-
-  const image: { id: string; url?: string; width?: number; height?: number } =
-    await res.json();
-    console.log(image);
+  const image = (await res.json()) as CatImage;
 
   return (
     <div>
-      <h1>Image {imageid}</h1>
-      {image.url ? (
-        <img
-          src={image.url}
-          alt={image.id ?? imageid}
-          width={image.width}
-          height={image.height}
-        />
-      ) : (
-        <p>No image URL returned.</p>
-      )}
+      <Image
+        src={image.url}
+        alt={image.id}
+        width={image.width}
+        height={image.height}
+        priority
+      />
     </div>
   );
 }
