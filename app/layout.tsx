@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,47 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <header className="sticky top-0 z-50 border-b border-black/10 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-black/60">
+          <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+            <Link
+              href="/"
+              className="font-semibold tracking-tight text-zinc-900 dark:text-zinc-100"
+            >
+              My First Next App
+            </Link>
+
+            <div className="flex items-center gap-1">
+              <Link
+                href="/"
+                className="rounded-md px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-white/10 dark:hover:text-white"
+              >
+                Home
+              </Link>
+              <Link
+                href="/about"
+                className="rounded-md px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-white/10 dark:hover:text-white"
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="rounded-md px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-white/10 dark:hover:text-white"
+              >
+                Contact
+              </Link>
+              <Link
+                href="/anime"
+                className="rounded-md px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-white/10 dark:hover:text-white"
+              >
+                Anime
+              </Link>
+            </div>
+          </nav>
+        </header>
+
+        <main className="flex-1">{children}</main>
+      </body>
     </html>
   );
 }
